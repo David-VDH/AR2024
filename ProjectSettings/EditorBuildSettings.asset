@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/FinalBossScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 938622881c6acbc4383913c2cd5369ec, type: 2}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: e0a0be5d75e18b945ac3a1dfab292838, type: 2}

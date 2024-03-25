@@ -35,6 +35,15 @@ public partial class @TouchInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DoubleTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f1630df-6122-4c91-96dd-2295fb73b063"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""MultiTap"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -70,6 +79,17 @@ public partial class @TouchInputs: IInputActionCollection2, IDisposable
                     ""action"": ""SingleTap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0e0dd239-97b7-47ca-b7fd-e9ff90248114"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DoubleTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -79,6 +99,7 @@ public partial class @TouchInputs: IInputActionCollection2, IDisposable
         // ARTouch
         m_ARTouch = asset.FindActionMap("ARTouch", throwIfNotFound: true);
         m_ARTouch_SingleTap = m_ARTouch.FindAction("SingleTap", throwIfNotFound: true);
+        m_ARTouch_DoubleTap = m_ARTouch.FindAction("DoubleTap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -141,11 +162,13 @@ public partial class @TouchInputs: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_ARTouch;
     private List<IARTouchActions> m_ARTouchActionsCallbackInterfaces = new List<IARTouchActions>();
     private readonly InputAction m_ARTouch_SingleTap;
+    private readonly InputAction m_ARTouch_DoubleTap;
     public struct ARTouchActions
     {
         private @TouchInputs m_Wrapper;
         public ARTouchActions(@TouchInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @SingleTap => m_Wrapper.m_ARTouch_SingleTap;
+        public InputAction @DoubleTap => m_Wrapper.m_ARTouch_DoubleTap;
         public InputActionMap Get() { return m_Wrapper.m_ARTouch; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -158,6 +181,9 @@ public partial class @TouchInputs: IInputActionCollection2, IDisposable
             @SingleTap.started += instance.OnSingleTap;
             @SingleTap.performed += instance.OnSingleTap;
             @SingleTap.canceled += instance.OnSingleTap;
+            @DoubleTap.started += instance.OnDoubleTap;
+            @DoubleTap.performed += instance.OnDoubleTap;
+            @DoubleTap.canceled += instance.OnDoubleTap;
         }
 
         private void UnregisterCallbacks(IARTouchActions instance)
@@ -165,6 +191,9 @@ public partial class @TouchInputs: IInputActionCollection2, IDisposable
             @SingleTap.started -= instance.OnSingleTap;
             @SingleTap.performed -= instance.OnSingleTap;
             @SingleTap.canceled -= instance.OnSingleTap;
+            @DoubleTap.started -= instance.OnDoubleTap;
+            @DoubleTap.performed -= instance.OnDoubleTap;
+            @DoubleTap.canceled -= instance.OnDoubleTap;
         }
 
         public void RemoveCallbacks(IARTouchActions instance)
@@ -185,5 +214,6 @@ public partial class @TouchInputs: IInputActionCollection2, IDisposable
     public interface IARTouchActions
     {
         void OnSingleTap(InputAction.CallbackContext context);
+        void OnDoubleTap(InputAction.CallbackContext context);
     }
 }
